@@ -22,7 +22,7 @@ public class AirportController {
     HashMap<City, String> mp = new HashMap<>();
     HashMap<Passenger, ArrayList<Integer>> passengerBookings = new HashMap<>();
     HashMap<Flight, Integer> noOfBookings = new HashMap<>();
-    HashMap<Flight, Integer> revenue = new HashMap<>();
+    HashMap<Integer, Integer> revenue = new HashMap<>();
     @PostMapping("/add_airport")
     public String addAirport(@RequestBody Airport airport){
 
@@ -148,7 +148,7 @@ public class AirportController {
             if(passengerId == passengers.get(i).getPassengerId()){
                 passengerBookings.get(passengers.get(i)).add(flightId);
                 noOfBookings.put(fl, noOfBookings.get(fl) + 1);
-                revenue.put(fl, revenue.get(fl) + calculateFlightFare(flightId));
+                revenue.put(flightId, revenue.get(fl) + calculateFlightFare(flightId));
                 return "SUCCESS";
             }
         }
@@ -185,7 +185,7 @@ public class AirportController {
             if(passengerId == passengers.get(i).getPassengerId()){
                 passengerBookings.get(passengers.get(i)).remove(flightId);
                 noOfBookings.put(fl, noOfBookings.get(fl) - 1);
-                revenue.put(fl, revenue.get(fl) - calculateFlightFare(flightId));
+                revenue.put(flightId, revenue.get(fl) - calculateFlightFare(flightId));
                 return "SUCCESS";
             }
         }
@@ -235,10 +235,8 @@ public class AirportController {
         //That is of all the passengers that have booked a flight till now and then calculate the revenue
         //Revenue will also decrease if some passenger cancels the flight
 
+        return revenue.get(flightId);
 
-
-
-        return 0;
     }
 
 
