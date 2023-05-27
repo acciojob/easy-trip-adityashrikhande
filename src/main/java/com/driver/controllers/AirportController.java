@@ -16,11 +16,14 @@ import java.util.Objects;
 
 @RestController
 public class AirportController {
+    ArrayList<Airport> arr = new ArrayList<>();
     @PostMapping("/add_airport")
     public String addAirport(@RequestBody Airport airport){
 
         //Simply add airport details to your database
         //Return a String message "SUCCESS"
+
+        arr.add(airport);
 
         return "SUCCESS";
     }
@@ -30,8 +33,22 @@ public class AirportController {
 
         //Largest airport is in terms of terminals. 3 terminal airport is larger than 2 terminal airport
         //Incase of a tie return the Lexicographically smallest airportName
+        int n = arr.size();
+        int maxTerminals = 0;
+        String LargestAirport = "";
+        for(int i=0; i<n; i++){
+            if(maxTerminals < arr.get(i).getNoOfTerminals()){
+                maxTerminals = arr.get(i).getNoOfTerminals();
+                LargestAirport = arr.get(i).getAirportName();
+            }else if(maxTerminals == arr.get(i).getNoOfTerminals()){
+                if(LargestAirport.compareTo(arr.get(i).getAirportName()) < 0){
+                    LargestAirport = arr.get(i).getAirportName();
+                }
+            }
+        }
+        return LargestAirport;
 
-       return null;
+       //return null;
     }
 
     @GetMapping("/get-shortest-time-travel-between-cities")
